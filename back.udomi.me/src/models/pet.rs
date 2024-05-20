@@ -1,3 +1,4 @@
+use poem::error::InternalServerError;
 use serde::{Serialize, Deserialize};
 use poem_openapi::Object;
 use poem_openapi::{OpenApi, payload::Json, payload::PlainText};
@@ -40,7 +41,7 @@ impl PetApi {
         )
         .fetch_one(pool.0)
         .await
-        .map_err(ApiError::DatabaseError)?
+        .map_err(InternalServerError)?
         .id;
 
         Ok(Json(id))
