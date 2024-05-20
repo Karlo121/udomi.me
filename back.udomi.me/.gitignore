@@ -1,0 +1,17 @@
+# Compiled files
+/target/
+
+# Dependency directories
+Cargo.lock
+**/target/
+
+# Generated files
+*.rs.bk
+*.rs.bk.*
+*.rs.save
+*.rs.sav
+*.swp
+*.class
+
+# Cargo workspace files
+Cargo.toml.orig
