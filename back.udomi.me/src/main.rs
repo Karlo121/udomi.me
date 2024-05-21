@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 #![allow(unused_variables)]
 #![allow(unused_imports)]
+
 use poem::{
     error::InternalServerError, listener::TcpListener, web::Data, EndpointExt,
     Result, Route, Server,
@@ -18,6 +19,7 @@ use std::env;
 mod models;
 mod api;
 use api::pet::PetApi;
+use api::user::UserApi;
 
 
 #[tokio::main]
@@ -31,19 +33,19 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .await?;
 
 
-    let endpoints = PetApi;
+    let endpoints = (PetApi, UserApi);
     let api_service = 
 	    OpenApiService::new(endpoints, "Udomi_me", "1.0.0")
 	    .server("http://localhost:3000");
     
     let ui = api_service.openapi_explorer();
-     let route = Route::new()
+
+    let route = Route::new()
         .nest("/", api_service)
         .nest("/ui", ui)
         .data(pool);
     Server::new(TcpListener::bind("127.0.0.1:3000"))
         .run(route).await?;
 
-    
     Ok(())
 }

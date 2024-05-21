@@ -3,3 +3,9 @@ pub mod pet{
 
     pub use pet_api::PetApi;
 }
+
+pub mod user{
+    pub mod user_api;
+
+    pub use user_api::UserApi;
+}

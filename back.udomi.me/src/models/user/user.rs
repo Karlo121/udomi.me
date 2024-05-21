@@ -8,15 +8,23 @@ use chrono::{DateTime, Utc};
 
 #[derive(Debug, Clone, Serialize, Deserialize, Object)]
 pub struct User {
-    id: i32,
-    username: String,
-    email: String,
-    password_hash: String,
-    created_at: DateTime<Utc>,
-    updated_at: DateTime<Utc>,
-    last_login: Option<DateTime<Utc>>,
+    pub id: i32,
+    pub username: String,
+    pub email: String,
+    pub password_hash: String,
+    pub created_at: DateTime<Utc>,
+    pub last_login: Option<DateTime<Utc>>,
 }
 
-pub struct UserApi;
+#[derive(Debug, Deserialize, Serialize, Object)]
+pub struct RegisterUser {
+    pub username: String,
+    pub email: String,
+    pub password: String,
+}
 
-type UserResponse = Result<Json<Vec<User>>>;
+#[derive(Debug, Deserialize, Serialize, Object)]
+pub struct LoginUser {
+    pub username: String,
+    pub password: String,
+}
