@@ -9,3 +9,5 @@ pub mod user{
 
     pub use user_api::UserApi;
 }
+
+pub mod tags;

@@ -4,14 +4,14 @@ use poem::{Error, Result, web::Data};
 use sqlx::PgPool;
 
 use crate::models::pet::Pet;
-
+use crate::api::tags::ApiTags;
 pub struct PetApi;
 
 type PetResponse = Result<Json<Vec<Pet>>>;
 
 #[OpenApi]
 impl PetApi {
-    #[oai(path = "/pets", method = "get")]
+    #[oai(path = "/get_pets", method = "get", tag = "ApiTags::Pet")]
     async fn get_pets(&self, pool: Data<&PgPool>) -> PetResponse {
         let pets = sqlx::query_as!(Pet, "SELECT id, name FROM pets")
             .fetch_all(pool.0)
@@ -19,9 +19,9 @@ impl PetApi {
             .map_err(InternalServerError)?;
 
         Ok(Json(pets))
-    }
+    }   
 
-    #[oai(path = "/pets", method = "post")]
+    #[oai(path = "/create_pet", method = "post", tag = "ApiTags::Pet")]
     async fn create_pet(
         &self,
         pool: Data<&PgPool>,

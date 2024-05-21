@@ -10,6 +10,7 @@ use poem::http::StatusCode;
 use crate::models::user::User;
 use crate::models::user::LoginUser;
 use crate::models::user::RegisterUser;
+use crate::api::tags::ApiTags;
 
 pub struct UserApi;
 
@@ -18,7 +19,7 @@ type UserResponse = Result<Json<Vec<User>>>;
 
 #[OpenApi]
 impl UserApi {
-    #[oai(path = "/register", method = "post")]
+    #[oai(path = "/register", method = "post", tag = "ApiTags::User")]
     async fn register_user(
         &self,
         pool: Data<&PgPool>,
@@ -49,7 +50,7 @@ impl UserApi {
         Ok(Json(user))
     }
     
-    #[oai(path = "/login", method = "post")]
+    #[oai(path = "/login", method = "post", tag = "ApiTags::User")]
     async fn login_user(
         &self,
         pool: Data<&PgPool>,
@@ -70,7 +71,7 @@ impl UserApi {
             .map_err(|_| Error::from_status(StatusCode::INTERNAL_SERVER_ERROR))?;
 
         let argon2 = Argon2::default();
-        
+
         let is_valid = argon2.verify_password(user.password.as_bytes(), &parsed_hash)
             .is_ok();
 
