@@ -1,17 +1,9 @@
 use poem::error::InternalServerError;
-use serde::{Serialize, Deserialize};
-use poem_openapi::Object;
 use poem_openapi::{OpenApi, payload::Json, payload::PlainText};
 use poem::{Error, Result, web::Data};
 use sqlx::PgPool;
 
-use super::error::ApiError;
-
-#[derive(Debug, Clone, Serialize, Deserialize, Object)]
-pub struct Pet {
-    id: i32,
-    name: String,
-}
+use crate::models::pet::Pet;
 
 pub struct PetApi;
 
@@ -24,7 +16,7 @@ impl PetApi {
         let pets = sqlx::query_as!(Pet, "SELECT id, name FROM pets")
             .fetch_all(pool.0)
             .await
-            .map_err(ApiError::DatabaseError)?;
+            .map_err(InternalServerError)?;
 
         Ok(Json(pets))
     }
