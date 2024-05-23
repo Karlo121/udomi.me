@@ -1,10 +1,10 @@
-use poem::error::InternalServerError;
-use serde::{Serialize, Deserialize};
-use poem_openapi::Object;
-use poem_openapi::{OpenApi, payload::Json, payload::PlainText};
-use poem::{Error, Result, web::Data};
-use sqlx::PgPool;
 use chrono::{DateTime, Utc};
+use poem::error::InternalServerError;
+use poem::{web::Data, Error, Result};
+use poem_openapi::Object;
+use poem_openapi::{payload::Json, payload::PlainText, OpenApi};
+use serde::{Deserialize, Serialize};
+use sqlx::PgPool;
 
 #[derive(Debug, Clone, Serialize, Deserialize, Object)]
 pub struct User {
@@ -12,7 +12,7 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub password_hash: String,
-    pub created_at: DateTime<Utc>,
+    pub created_at: Option<DateTime<Utc>>,
     pub last_login: Option<DateTime<Utc>>,
 }
 

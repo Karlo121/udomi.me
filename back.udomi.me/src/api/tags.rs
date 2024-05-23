@@ -4,4 +4,5 @@ use poem_openapi::Tags;
 pub enum ApiTags {
     Pet,
     User,
+    Species,
 }

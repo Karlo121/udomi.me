@@ -2,25 +2,24 @@
 #![allow(unused_variables)]
 #![allow(unused_imports)]
 
+use color_eyre::eyre::Report;
+use dotenv::dotenv;
 use poem::{
-    error::InternalServerError, listener::TcpListener, web::Data, EndpointExt,
-    Result, Route, Server,
+    error::InternalServerError, listener::TcpListener, web::Data, EndpointExt, Result, Route,
+    Server,
 };
 use poem_openapi::{
     payload::{Json, PlainText},
     Object, OpenApi, OpenApiService,
 };
 use sqlx::postgres::PgPoolOptions;
-use color_eyre::eyre::Report;
-use std::fmt::{self, Display};
-use dotenv::dotenv;
 use std::env;
+use std::fmt::{self, Display};
 
-mod models;
 mod api;
+mod models;
 use api::pet::PetApi;
 use api::user::UserApi;
-
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -32,12 +31,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .connect(&database_url)
         .await?;
 
-
     let endpoints = (PetApi, UserApi);
-    let api_service = 
-	    OpenApiService::new(endpoints, "Udomi_me", "1.0.0")
-	    .server("http://localhost:3000");
-    
+    let api_service =
+        OpenApiService::new(endpoints, "Udomi_me", "1.0.0").server("http://localhost:3000");
+
     let ui = api_service.openapi_explorer();
 
     let route = Route::new()
@@ -45,7 +42,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .nest("/ui", ui)
         .data(pool);
     Server::new(TcpListener::bind("127.0.0.1:3000"))
-        .run(route).await?;
+        .run(route)
+        .await?;
 
     Ok(())
 }

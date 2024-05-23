@@ -1,21 +1,18 @@
-use poem::error::InternalServerError;
-use poem_openapi::{OpenApi, payload::Json, payload::PlainText};
-use poem::{Error, Result, web::Data};
-use sqlx::PgPool;
-use chrono::{DateTime, Utc};
 use argon2::{self, Argon2, PasswordHash, PasswordHasher, PasswordVerifier};
-use rand::rngs::OsRng;
+use chrono::{DateTime, Utc};
+use poem::error::InternalServerError;
 use poem::http::StatusCode;
+use poem::{web::Data, Error, Result};
+use poem_openapi::{payload::Json, payload::PlainText, OpenApi};
+use rand::rngs::OsRng;
+use sqlx::PgPool;
 
-use crate::models::user::User;
-use crate::models::user::LoginUser;
-use crate::models::user::RegisterUser;
 use crate::api::tags::ApiTags;
+use crate::models::user::{LoginUser, RegisterUser, User};
 
 pub struct UserApi;
 
 type UserResponse = Result<Json<Vec<User>>>;
-
 
 #[OpenApi]
 impl UserApi {
@@ -27,29 +24,29 @@ impl UserApi {
     ) -> Result<Json<User>> {
         let salt = argon2::password_hash::SaltString::generate(&mut OsRng);
         let argon2 = Argon2::default();
-        let password_hash = argon2.hash_password(user.password.as_bytes(), &salt)
+        let password_hash = argon2
+            .hash_password(user.password.as_bytes(), &salt)
             .map_err(|e| Error::from_status(StatusCode::INTERNAL_SERVER_ERROR))?
             .to_string();
 
-        let user = sqlx::query_as!(
+        let new_user = sqlx::query_as!(
             User,
             r#"
-            INSERT INTO users (username, email, password_hash, created_at)
-            VALUES ($1, $2, $3, $4)
+            INSERT INTO users (username, email, password_hash)
+            VALUES ($1, $2, $3)
             RETURNING id, username, email, password_hash, created_at, last_login
             "#,
             user.username,
             user.email,
-            password_hash,
-            Utc::now()
+            password_hash
         )
         .fetch_one(pool.0)
         .await
         .map_err(InternalServerError)?;
 
-        Ok(Json(user))
+        Ok(Json(new_user))
     }
-    
+
     #[oai(path = "/login", method = "post", tag = "ApiTags::User")]
     async fn login_user(
         &self,
@@ -72,7 +69,8 @@ impl UserApi {
 
         let argon2 = Argon2::default();
 
-        let is_valid = argon2.verify_password(user.password.as_bytes(), &parsed_hash)
+        let is_valid = argon2
+            .verify_password(user.password.as_bytes(), &parsed_hash)
             .is_ok();
 
         if is_valid {
@@ -90,5 +88,4 @@ impl UserApi {
             Err(Error::from_status(StatusCode::UNAUTHORIZED))
         }
     }
-
 }
