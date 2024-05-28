@@ -48,11 +48,7 @@ impl UserApi {
     }
 
     #[oai(path = "/login", method = "post", tag = "ApiTags::User")]
-    async fn login_user(
-        &self,
-        pool: Data<&PgPool>,
-        user: Json<LoginUser>,
-    ) -> Result<PlainText<String>> {
+    async fn login_user(&self, pool: Data<&PgPool>, user: Json<LoginUser>) -> Result<Json<User>> {
         let stored_user = sqlx::query!(
             r#"
             SELECT id, username, email, password_hash, created_at, last_login 
@@ -73,6 +69,15 @@ impl UserApi {
             .verify_password(user.password.as_bytes(), &parsed_hash)
             .is_ok();
 
+        let user = User {
+            id: stored_user.id,
+            username: stored_user.username,
+            email: stored_user.email,
+            created_at: stored_user.created_at,
+            last_login: stored_user.last_login,
+            password_hash: stored_user.password_hash,
+        };
+
         if is_valid {
             sqlx::query!(
                 "UPDATE users SET last_login = $1 WHERE id = $2",
@@ -83,7 +88,7 @@ impl UserApi {
             .await
             .map_err(InternalServerError)?;
 
-            Ok(PlainText("Login successful".to_string()))
+            Ok(Json(user))
         } else {
             Err(Error::from_status(StatusCode::UNAUTHORIZED))
         }

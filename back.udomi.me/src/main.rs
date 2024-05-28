@@ -5,8 +5,8 @@
 use color_eyre::eyre::Report;
 use dotenv::dotenv;
 use poem::{
-    error::InternalServerError, listener::TcpListener, web::Data, EndpointExt, Result, Route,
-    Server,
+    error::InternalServerError, listener::TcpListener, middleware::Cors, web::Data, EndpointExt,
+    Result, Route, Server,
 };
 use poem_openapi::{
     payload::{Json, PlainText},
@@ -37,10 +37,17 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let ui = api_service.openapi_explorer();
 
+    let cors = Cors::new()
+        .allow_methods(vec!["GET", "POST", "OPTIONS", "PUT", "DELETE"])
+        .allow_origin("http://localhost:5173")
+        .allow_credentials(true);
+
     let route = Route::new()
         .nest("/", api_service)
         .nest("/ui", ui)
-        .data(pool);
+        .data(pool)
+        .with(cors);
+
     Server::new(TcpListener::bind("127.0.0.1:3000"))
         .run(route)
         .await?;

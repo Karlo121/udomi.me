@@ -60,4 +60,23 @@ impl PetApi {
 
         Ok(Json(pet))
     }
+
+    #[oai(path = "/pets", method = "get", tag = "ApiTags::Pet")]
+    async fn get_all_pets(&self, pool: Data<&PgPool>) -> Result<Json<Vec<Pet>>> {
+        let pets = sqlx::query_as!(
+            Pet,
+            r#"
+            SELECT id, name, breed_id, age, description, gender as "gender: Gender", adopted, created_at, created_by
+            FROM pets
+            "#
+        )
+        .fetch_all(pool.0)
+        .await
+        .map_err(|e| {
+            eprintln!("Error fetching pets: {:?}", e);
+            InternalServerError(e)
+        })?;
+
+        Ok(Json(pets))
+    }
 }
