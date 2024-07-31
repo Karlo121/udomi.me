@@ -17,18 +17,59 @@ const Navigation: React.FC = () => {
         navigate('/login');
     };
 
+    const handleLogoClick = () => {
+        navigate('/');
+    };
+
     return (
-        <AppBar position='static' sx={{ backgroundColor: '#FFB347' }}>
+        <AppBar
+            position='static'
+            sx={{
+                backgroundColor: 'transparent',
+            }}
+        >
             <Toolbar>
                 <Box
-                    sx={{ display: 'flex', flexGrow: 1, alignItems: 'center' }}
+                    sx={{
+                        display: 'flex',
+                        flexGrow: 1,
+                        alignItems: 'center',
+                        height: 100,
+                    }}
                 >
-                    <Typography variant='h6' sx={{ flexGrow: 1 }}>
-                        Udomi.me
-                    </Typography>
+                    <Box
+                        sx={{
+                            mr: 2,
+                            mt: -2,
+                            cursor: 'pointer',
+                            '&:hover img': {
+                                transform: 'scale(1.1)',
+                                transition: 'transform 0.2s',
+                            },
+                        }}
+                        onClick={handleLogoClick}
+                    >
+                        <img src='/logo.png' alt='Logo' height='130' />
+                    </Box>
+                </Box>
+                <Box>
                     <Button
                         color='inherit'
-                        sx={{ mr: 2 }}
+                        sx={{
+                            mr: 2,
+                            fontWeight: 'bold',
+                            color: '#FFB347',
+                            fontSize: '1.2rem',
+                            transition: 'transform 0.2s',
+                            '&:hover': {
+                                transform: 'scale(1.1)',
+                                color: '#FF8C00',
+                            },
+                            '&:active': {
+                                transform: 'scale(0.95)',
+                                color: '#FF4500',
+                            },
+                        }}
                         onClick={handleLoginClick}
                     >
                         Login
@@ -36,6 +77,23 @@ const Navigation: React.FC = () => {
                     <Button
                         color='inherit'
                         variant='outlined'
+                        sx={{
+                            fontWeight: 'bold',
+                            color: '#FFB347',
+                            fontSize: '1.2rem',
+                            borderColor: '#FFB347',
+                            transition: 'transform 0.2s',
+                            '&:hover': {
+                                transform: 'scale(1.1)',
+                                color: '#FF8C00',
+                                borderColor: '#FF8C00',
+                            },
+                            '&:active': {
+                                transform: 'scale(0.95)',
+                                color: '#FF4500',
+                                borderColor: '#FF4500',
+                            },
+                        }}
                         onClick={handleRegisterClick}
                     >
                         Register

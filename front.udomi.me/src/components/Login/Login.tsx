@@ -31,37 +31,137 @@ const Login: React.FC = () => {
     };
 
     return (
-        <Container>
-            <Typography variant='h4' component='h2' gutterBottom>
-                Login
-            </Typography>
-            <Paper elevation={3} sx={{ padding: 3, marginTop: 2 }}>
-                <Box
-                    component='form'
-                    sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
-                    onSubmit={handleSubmit}
+        <Container
+            sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                minWidth: '100vw',
+                minHeight: '87.4vh',
+                paddingTop: '0px',
+                position: 'relative',
+                overflow: 'hidden',
+            }}
+        >
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    width: '100%',
+                    maxWidth: '600px',
+                    marginRight: '160px',
+                }}
+            >
+                <Typography
+                    variant='h2'
+                    component='h1'
+                    gutterBottom
+                    sx={{ color: '#FFB347', fontWeight: 'bold' }}
                 >
-                    <TextField
-                        label='Username'
-                        variant='outlined'
-                        fullWidth
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <TextField
-                        label='Password'
-                        type='password'
-                        variant='outlined'
-                        fullWidth
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <Button variant='contained' color='primary' type='submit'>
-                        Login
-                    </Button>
-                </Box>
-                {error && <Typography color='error'>{error}</Typography>}
-            </Paper>
+                    Login
+                </Typography>
+                <Paper
+                    elevation={0}
+                    sx={{
+                        padding: 3,
+                        marginTop: 2,
+                        width: '100%',
+                        backgroundColor: 'transparent',
+                    }}
+                >
+                    <Box
+                        component='form'
+                        sx={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 3,
+                        }}
+                        onSubmit={handleSubmit}
+                    >
+                        <TextField
+                            label='Username'
+                            variant='outlined'
+                            fullWidth
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '50px',
+                                    fontSize: '1.2rem',
+                                    '& fieldset': {
+                                        borderColor: '#AEC6CF',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                },
+                            }}
+                        />
+                        <TextField
+                            label='Password'
+                            type='password'
+                            variant='outlined'
+                            fullWidth
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '50px',
+                                    fontSize: '1.2rem',
+                                    '& fieldset': {
+                                        borderColor: '#AEC6CF',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                },
+                            }}
+                        />
+                        <Button
+                            variant='contained'
+                            type='submit'
+                            sx={{
+                                backgroundColor: '#FFB347',
+                                color: 'white',
+                                fontSize: '1.2rem',
+                                borderRadius: '50px',
+                                padding: '10px 20px',
+                                width: '150px',
+                                alignSelf: 'center',
+                                '&:hover': {
+                                    backgroundColor: '#FF8C00',
+                                },
+                                '&:active': {
+                                    backgroundColor: '#FF4500',
+                                },
+                            }}
+                        >
+                            Login
+                        </Button>
+                    </Box>
+                    {error && <Typography color='error'>{error}</Typography>}
+                </Paper>
+            </Box>
+            <Box
+                component='img'
+                src='/cat_one.png'
+                alt='Cat'
+                sx={{
+                    height: '600px',
+                    position: 'absolute',
+                    bottom: 0,
+                    right: 0,
+                    margin: 0,
+                    padding: 0,
+                }}
+            />
         </Container>
     );
 };
