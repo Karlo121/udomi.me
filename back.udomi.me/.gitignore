@@ -16,4 +16,4 @@ Cargo.lock
 # Cargo workspace files
 Cargo.toml.orig
 
-*.env
+.env
