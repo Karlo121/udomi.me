@@ -10,4 +10,10 @@ pub mod user {
     pub use user_api::UserApi;
 }
 
+pub mod breed {
+    pub mod breed_api;
+
+    pub use breed_api::BreedApi;
+}
+
 pub mod tags;

@@ -5,4 +5,5 @@ pub enum ApiTags {
     Pet,
     User,
     Species,
+    Breed,
 }

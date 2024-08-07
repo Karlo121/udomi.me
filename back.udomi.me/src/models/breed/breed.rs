@@ -5,5 +5,5 @@ use serde::{Deserialize, Serialize};
 pub struct Breed {
     pub id: i32,
     pub name: String,
-    pub species_id: i32,
+    pub species_id: Option<i32>,
 }

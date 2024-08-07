@@ -1,4 +1,10 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, {
+    createContext,
+    useState,
+    useContext,
+    ReactNode,
+    useEffect,
+} from 'react';
 
 interface User {
     id: number;
@@ -18,6 +24,13 @@ export const UserContext = createContext<UserContextType | undefined>(
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const storedUser = sessionStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
 
     const login = (user: User) => {
         setUser(user);

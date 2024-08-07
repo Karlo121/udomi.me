@@ -18,6 +18,7 @@ use std::fmt::{self, Display};
 
 mod api;
 mod models;
+use api::breed::BreedApi;
 use api::pet::PetApi;
 use api::user::UserApi;
 
@@ -31,7 +32,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .connect(&database_url)
         .await?;
 
-    let endpoints = (PetApi, UserApi);
+    let endpoints = (PetApi, UserApi, BreedApi);
     let api_service =
         OpenApiService::new(endpoints, "Udomi_me", "1.0.0").server("http://localhost:3000");
 

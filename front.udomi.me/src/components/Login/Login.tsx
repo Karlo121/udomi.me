@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { useUser } from '../../context/userContext/userContext';
 import { loginUser } from '../../api/user/user';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
     const [username, setUsername] = useState('');
@@ -14,6 +15,7 @@ const Login: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
 
     const { login } = useUser();
+    const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -21,15 +23,14 @@ const Login: React.FC = () => {
         try {
             const data = { username, password };
             const user = await loginUser(data);
-            console.log(user);
+            sessionStorage.setItem('user', JSON.stringify(user));
             login(user);
             setError(null);
-            console.log('Login successful:', user);
+            navigate('/');
         } catch (err) {
             setError('Login failed');
         }
     };
-
     return (
         <Container
             sx={{
