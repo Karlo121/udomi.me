@@ -16,4 +16,5 @@ pub mod breed {
     pub use breed_api::BreedApi;
 }
 
+pub mod s3;
 pub mod tags;
