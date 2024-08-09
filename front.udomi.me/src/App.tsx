@@ -6,6 +6,7 @@ import Navigation from './components/Navigation/Navigation';
 import Login from './components/Login/Login';
 import Profile from './components/Profile/Profile';
 import AddPetForm from './components/AddPet/AddPetForm';
+import PetList from './components/PetList/PetList';
 
 const App: React.FC = () => {
     return (
@@ -17,6 +18,7 @@ const App: React.FC = () => {
                 <Route path='/login' element={<Login />} />
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/add-pet' element={<AddPetForm />} />
+                <Route path='/pets' element={<PetList />} />
             </Routes>
         </Router>
     );

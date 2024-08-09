@@ -1,20 +1,15 @@
 import axiosInstance from '../axios';
 
-interface PetData {
-    name: string;
-    breed_id: number;
-    age: number;
-    description: string;
-    gender: string;
-    created_by: number;
-}
+export const createPet = async (formData: FormData) => {
+    const response = await axiosInstance.post('/pets', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+};
 
-export const createPet = async (petData: PetData) => {
-    try {
-        const response = await axiosInstance.post('/pets', petData);
-        return response.data;
-    } catch (error) {
-        console.error('Failed to add pet:', error);
-        throw error;
-    }
+export const getPets = async () => {
+    const response = await axiosInstance.get('/pets');
+    return response.data;
 };

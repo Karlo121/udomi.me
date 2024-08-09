@@ -21,6 +21,7 @@ interface PetData {
     age: number;
     description: string;
     gender: string;
+    image: File | null;
 }
 
 interface Breed {
@@ -40,6 +41,7 @@ const AddPetForm: React.FC = () => {
         age: 0,
         description: '',
         gender: '',
+        image: null,
     });
     const [breeds, setBreeds] = useState<Breed[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -70,26 +72,34 @@ const AddPetForm: React.FC = () => {
     const handleSelectChange = (e: SelectChangeEvent<string | number>) => {
         const { name, value } = e.target;
 
-        // If name is 'breed_id', treat the value as a number
-        // Otherwise, treat it as a string (e.g., gender)
         setPetData({
             ...petData,
             [name as string]: name === 'breed_id' ? Number(value) : value,
         });
     };
 
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setPetData({ ...petData, image: e.target.files[0] });
+        }
+    };
+
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
         try {
-            const payload = {
-                ...petData,
-                created_by: user!.id,
-                breed_id: petData.breed_id,
-                age: petData.age,
-            };
-            console.log('Payload:', payload); // Log the payload for debugging
-            await createPet(payload);
+            const formData = new FormData();
+            formData.append('name', petData.name);
+            formData.append('breed_id', petData.breed_id.toString());
+            formData.append('age', petData.age.toString());
+            formData.append('description', petData.description);
+            formData.append('gender', petData.gender);
+            formData.append('created_by', user!.id.toString());
+            if (petData.image) {
+                formData.append('image', petData.image);
+            }
+
+            await createPet(formData);
             setError(null);
             navigate('/'); // Redirect to the home page
         } catch (err) {
@@ -121,7 +131,11 @@ const AddPetForm: React.FC = () => {
                     <Typography variant='h4' component='h1' gutterBottom>
                         Add a Pet for Adoption
                     </Typography>
-                    <Box component='form' onSubmit={handleSubmit}>
+                    <Box
+                        component='form'
+                        onSubmit={handleSubmit}
+                        encType='multipart/form-data'
+                    >
                         <TextField
                             label='Name'
                             variant='outlined'
@@ -204,6 +218,11 @@ const AddPetForm: React.FC = () => {
                             onChange={handleTextFieldChange}
                             multiline
                             rows={4} // Increase rows to provide more space
+                        />
+                        <input
+                            accept='image/*'
+                            type='file'
+                            onChange={handleFileChange}
                         />
                         {error && (
                             <Typography color='error'>{error}</Typography>
