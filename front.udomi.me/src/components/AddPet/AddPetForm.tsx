@@ -9,33 +9,21 @@ import Box from '@mui/material/Box';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { useUser } from '../../context/userContext/userContext';
 import { createPet } from '../../api/pet/pet';
 import { getBreeds } from '../../api/breed/breed';
-
-interface PetData {
-    name: string;
-    breed_id: number;
-    age: number;
-    description: string;
-    gender: string;
-    image: File | null;
-}
-
-interface Breed {
-    id: number;
-    name: string;
-}
+import { IPetData } from '../../models/Pet';
+import { IBreed } from '../../models/breed';
 
 const genderOptions = [
-    { value: 'Male', label: 'Male' },
-    { value: 'Female', label: 'Female' },
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
+    { value: 'unknown', label: 'Unknown' },
 ];
 
 const AddPetForm: React.FC = () => {
-    const [petData, setPetData] = useState<PetData>({
+    const [petData, setPetData] = useState<IPetData>({
         name: '',
         breed_id: 0,
         age: 0,
@@ -43,7 +31,7 @@ const AddPetForm: React.FC = () => {
         gender: '',
         image: null,
     });
-    const [breeds, setBreeds] = useState<Breed[]>([]);
+    const [breeds, setBreeds] = useState<IBreed[]>([]);
     const [error, setError] = useState<string | null>(null);
 
     const { user } = useUser();
@@ -65,7 +53,7 @@ const AddPetForm: React.FC = () => {
         const { name, value } = e.target;
         setPetData({
             ...petData,
-            [name as string]: name === 'age' ? Number(value) : value,
+            [name]: name === 'age' ? Number(value) : value,
         });
     };
 
@@ -74,7 +62,7 @@ const AddPetForm: React.FC = () => {
 
         setPetData({
             ...petData,
-            [name as string]: name === 'breed_id' ? Number(value) : value,
+            [name]: name === 'breed_id' ? Number(value) : value,
         });
     };
 
@@ -101,9 +89,9 @@ const AddPetForm: React.FC = () => {
 
             await createPet(formData);
             setError(null);
-            navigate('/'); // Redirect to the home page
+            navigate('/');
         } catch (err) {
-            console.error('Failed to add pet:', err); // Log the error for debugging
+            console.error('Failed to add pet:', err);
             setError('Failed to add pet');
         }
     };
@@ -148,15 +136,15 @@ const AddPetForm: React.FC = () => {
                         <FormControl fullWidth margin='normal'>
                             <Select
                                 name='breed_id'
-                                value={petData.breed_id.toString()} // Convert to string for comparison
+                                value={petData.breed_id.toString()}
                                 onChange={handleSelectChange}
                                 displayEmpty
                                 inputProps={{ 'aria-label': 'Breed' }}
                                 renderValue={(selected) => {
                                     if (selected === '') {
-                                        return <em>Select a breed</em>; // Use `em` correctly within JSX
+                                        return <em>Select a breed</em>;
                                     }
-                                    const selectedBreedId = Number(selected); // Convert to number for comparison
+                                    const selectedBreedId = Number(selected);
                                     const selectedBreed = breeds.find(
                                         (breed) => breed.id === selectedBreedId
                                     );
@@ -164,7 +152,7 @@ const AddPetForm: React.FC = () => {
                                         selectedBreed.name
                                     ) : (
                                         <em>Select a breed</em>
-                                    ); // Use `em` correctly within JSX
+                                    );
                                 }}
                             >
                                 <MenuItem value='' disabled>
@@ -217,7 +205,7 @@ const AddPetForm: React.FC = () => {
                             value={petData.description}
                             onChange={handleTextFieldChange}
                             multiline
-                            rows={4} // Increase rows to provide more space
+                            rows={4}
                         />
                         <input
                             accept='image/*'

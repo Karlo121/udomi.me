@@ -1,26 +1,8 @@
 // src/api/auth.ts
 import axiosInstance from '../axios';
+import { IUser, IRegisterData, ILoginData } from '../../models/user';
 
-interface RegisterData {
-    username: string;
-    email: string;
-    password: string;
-    phone_number: string;
-}
-
-interface LoginData {
-    username: string;
-    password: string;
-}
-
-interface User {
-    id: number;
-    username: string;
-    email: string;
-    phone_number: string | null;
-}
-
-export const registerUser = async (data: RegisterData) => {
+export const registerUser = async (data: IRegisterData) => {
     try {
         const response = await axiosInstance.post('/register', data);
         return response.data;
@@ -30,9 +12,9 @@ export const registerUser = async (data: RegisterData) => {
     }
 };
 
-export const loginUser = async (userData: LoginData): Promise<User> => {
+export const loginUser = async (userData: ILoginData): Promise<IUser> => {
     try {
-        const response = await axiosInstance.post<User>('/login', userData);
+        const response = await axiosInstance.post<IUser>('/login', userData);
         return response.data;
     } catch (error) {
         console.error('Login error:', error);

@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container, Typography, Button, Box } from '@mui/material';
+import { Button, Box } from '@mui/material';
 import { Pets, Home as HomeIcon } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 
 const Home: React.FC = () => {
-    const navigate = useNavigate(); // Initialize the navigate function
+    const navigate = useNavigate();
 
     return (
         <Box
@@ -50,7 +50,7 @@ const Home: React.FC = () => {
                         },
                     }}
                     startIcon={<Pets />}
-                    onClick={() => navigate('/pets')} // Add navigation on click
+                    onClick={() => navigate('/pets')}
                 >
                     Adopt
                 </Button>
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
                         },
                     }}
                     startIcon={<HomeIcon />}
-                    onClick={() => navigate('/add-pet')} // Add navigation on click
+                    onClick={() => navigate('/add-pet')}
                 >
                     Find a home
                 </Button>

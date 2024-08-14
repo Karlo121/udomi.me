@@ -23,7 +23,7 @@ const Navigation: React.FC = () => {
     };
 
     const handleProfileClick = () => {
-        navigate('/profile'); // Assuming there's a profile page
+        navigate('/profile');
     };
 
     const handleAddPetClick = () => {

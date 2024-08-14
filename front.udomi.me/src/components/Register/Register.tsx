@@ -6,12 +6,13 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { registerUser } from '../../api/user/user';
+import { IRegisterData } from '../../models/user';
 
 const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState(''); // New phone number state
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
@@ -19,7 +20,7 @@ const Register: React.FC = () => {
         event.preventDefault();
 
         try {
-            const data = {
+            const data: IRegisterData = {
                 username,
                 email,
                 password,

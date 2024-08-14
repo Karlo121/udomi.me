@@ -51,6 +51,7 @@ pub struct Pet {
     pub created_at: Option<DateTime<Utc>>,
     pub created_by: i32,
     pub image_url: Option<String>,
+    pub location: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Object)]
@@ -61,4 +62,5 @@ pub struct CreatePet {
     pub description: String,
     pub gender: Gender,
     pub created_by: i32,
+    pub location: Option<String>,
 }

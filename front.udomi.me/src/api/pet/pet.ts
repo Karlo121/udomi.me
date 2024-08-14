@@ -1,7 +1,8 @@
 import axiosInstance from '../axios';
+import { IPet } from '../../models/Pet';
 
-export const createPet = async (formData: FormData) => {
-    const response = await axiosInstance.post('/pets', formData, {
+export const createPet = async (formData: FormData): Promise<IPet> => {
+    const response = await axiosInstance.post<IPet>('/pets', formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -9,12 +10,12 @@ export const createPet = async (formData: FormData) => {
     return response.data;
 };
 
-export const getPets = async () => {
-    const response = await axiosInstance.get('/pets');
+export const getPets = async (): Promise<IPet[]> => {
+    const response = await axiosInstance.get<IPet[]>('/pets');
     return response.data;
 };
 
-export const getPetById = async (id: number) => {
-    const response = await axiosInstance.get(`/pets/${id}`);
+export const getPetById = async (id: number): Promise<IPet> => {
+    const response = await axiosInstance.get<IPet>(`/pets/${id}`);
     return response.data;
 };

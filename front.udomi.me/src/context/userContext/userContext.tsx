@@ -5,16 +5,11 @@ import React, {
     ReactNode,
     useEffect,
 } from 'react';
-
-interface User {
-    id: number;
-    username: string;
-    email: string;
-}
+import { IUser } from '../../models/user';
 
 interface UserContextType {
-    user: User | null;
-    login: (user: User) => void;
+    user: IUser | null;
+    login: (user: IUser) => void;
     logout: () => void;
 }
 
@@ -23,7 +18,7 @@ export const UserContext = createContext<UserContextType | undefined>(
 );
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
+    const [user, setUser] = useState<IUser | null>(null);
 
     useEffect(() => {
         const storedUser = sessionStorage.getItem('user');
@@ -32,7 +27,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         }
     }, []);
 
-    const login = (user: User) => {
+    const login = (user: IUser) => {
         setUser(user);
     };
 

@@ -4,30 +4,15 @@ import { Typography, Box, Card, Grid, IconButton } from '@mui/material';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import { getPetById } from '../../api/pet/pet'; // Import the necessary functions
+import { getPetById } from '../../api/pet/pet';
 import { getUserById } from '../../api/user/user';
-
-interface Pet {
-    id: number;
-    name: string;
-    breed_id: number;
-    age: number;
-    description: string;
-    gender: string;
-    image_url: string;
-    created_by: number; // Assuming this corresponds to the user's ID
-}
-
-interface User {
-    id: number;
-    username: string;
-    phone_number: string | null;
-}
+import { IPet } from '../../models/Pet';
+import { IUser } from '../../models/user';
 
 const PetDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
-    const [pet, setPet] = useState<Pet | null>(null);
-    const [user, setUser] = useState<User | null>(null);
+    const [pet, setPet] = useState<IPet | null>(null);
+    const [user, setUser] = useState<IUser | null>(null);
 
     useEffect(() => {
         const fetchPetAndUser = async () => {
@@ -51,7 +36,6 @@ const PetDetail: React.FC = () => {
     return (
         <Box sx={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
             <Grid container spacing={4}>
-                {/* Image Section */}
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -68,7 +52,6 @@ const PetDetail: React.FC = () => {
                     />
                 </Grid>
 
-                {/* Pet Details Section */}
                 <Grid item xs={12} md={8}>
                     <Card
                         sx={{
@@ -97,8 +80,8 @@ const PetDetail: React.FC = () => {
                             {pet.gender}
                         </Typography>
                         <Typography variant='body1' gutterBottom>
-                            <LocationOnIcon sx={{ marginRight: '8px' }} />{' '}
-                            Location: Someplace, NB
+                            <LocationOnIcon sx={{ marginRight: '8px' }} />
+                            Location: {pet.location}
                         </Typography>
                         <Typography variant='body1'>
                             <strong>Description:</strong> {pet.description}
@@ -106,7 +89,6 @@ const PetDetail: React.FC = () => {
                     </Card>
                 </Grid>
 
-                {/* User Information Section */}
                 <Grid item xs={12} md={4}>
                     <Card
                         sx={{

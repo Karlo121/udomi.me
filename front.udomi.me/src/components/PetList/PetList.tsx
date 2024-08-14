@@ -2,19 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPets } from '../../api/pet/pet';
 import { Grid, Card, CardContent, Typography, Box } from '@mui/material';
-
-interface Pet {
-    id: number;
-    name: string;
-    breed_id: number;
-    age: number;
-    description: string;
-    gender: string;
-    image_url: string;
-}
+import { IPet } from '../../models/Pet';
 
 const PetList: React.FC = () => {
-    const [pets, setPets] = useState<Pet[]>([]);
+    const [pets, setPets] = useState<IPet[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {

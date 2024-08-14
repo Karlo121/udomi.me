@@ -8,10 +8,11 @@ import Box from '@mui/material/Box';
 import { useUser } from '../../context/userContext/userContext';
 import { loginUser } from '../../api/user/user';
 import { useNavigate } from 'react-router-dom';
+import { ILoginData, IUser } from '../../models/user';
 
 const Login: React.FC = () => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string | null>(null);
 
     const { login } = useUser();
@@ -20,9 +21,10 @@ const Login: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        const data: ILoginData = { username, password };
+
         try {
-            const data = { username, password };
-            const user = await loginUser(data);
+            const user: IUser = await loginUser(data);
             sessionStorage.setItem('user', JSON.stringify(user));
             login(user);
             setError(null);
@@ -31,6 +33,7 @@ const Login: React.FC = () => {
             setError('Login failed');
         }
     };
+
     return (
         <Container
             sx={{

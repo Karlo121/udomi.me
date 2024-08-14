@@ -1,11 +1,7 @@
+import { IBreed } from '../../models/breed';
 import axiosInstance from '../axios';
 
-interface Breed {
-    id: number;
-    name: string;
-}
-
-export const getBreeds = async (): Promise<Breed[]> => {
+export const getBreeds = async (): Promise<IBreed[]> => {
     try {
         const response = await axiosInstance.get('/breeds');
         return response.data;
