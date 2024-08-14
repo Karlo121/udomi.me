@@ -6,36 +6,43 @@ import PetsIcon from '@mui/icons-material/Pets';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import { getPetById } from '../../api/pet/pet';
 import { getUserById } from '../../api/user/user';
+import { getBreedById } from '../../api/breed/breed';
 import { IPet } from '../../models/Pet';
 import { IUser } from '../../models/user';
+import { IBreed } from '../../models/breed';
 
 const PetDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [pet, setPet] = useState<IPet | null>(null);
     const [user, setUser] = useState<IUser | null>(null);
+    const [breed, setBreed] = useState<IBreed | null>(null);
 
     useEffect(() => {
-        const fetchPetAndUser = async () => {
+        const fetchPetAndUserAndBreed = async () => {
             try {
                 const petData = await getPetById(parseInt(id!, 10));
                 setPet(petData);
 
                 const userData = await getUserById(petData.created_by);
                 setUser(userData);
+
+                const breedData = await getBreedById(petData.breed_id);
+                setBreed(breedData);
             } catch (error) {
                 console.error('Failed to fetch data:', error);
             }
         };
-        fetchPetAndUser();
+        fetchPetAndUserAndBreed();
     }, [id]);
 
-    if (!pet || !user) {
+    if (!pet || !user || !breed) {
         return <Typography>Loading...</Typography>;
     }
 
     return (
         <Box sx={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
             <Grid container spacing={4}>
+                {/* Image Section */}
                 <Grid item xs={12}>
                     <Box
                         sx={{
@@ -52,6 +59,7 @@ const PetDetail: React.FC = () => {
                     />
                 </Grid>
 
+                {/* Pet Details Section */}
                 <Grid item xs={12} md={8}>
                     <Card
                         sx={{
@@ -68,8 +76,8 @@ const PetDetail: React.FC = () => {
                             {pet.name}
                         </Typography>
                         <Typography variant='body1' gutterBottom>
-                            <PetsIcon sx={{ marginRight: '8px' }} /> Breed ID:{' '}
-                            {pet.breed_id}
+                            <PetsIcon sx={{ marginRight: '8px' }} /> Breed:{' '}
+                            {breed.name}
                         </Typography>
                         <Typography variant='body1' gutterBottom>
                             <PetsIcon sx={{ marginRight: '8px' }} /> Age:{' '}
@@ -89,6 +97,7 @@ const PetDetail: React.FC = () => {
                     </Card>
                 </Grid>
 
+                {/* User Information Section */}
                 <Grid item xs={12} md={4}>
                     <Card
                         sx={{

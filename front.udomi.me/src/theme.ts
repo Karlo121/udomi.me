@@ -1,7 +1,5 @@
-// src/theme.ts
 import { createTheme } from '@mui/material/styles';
 
-// Define the pastel colors
 const pastelOrange = '#FFB347';
 const pastelGreen = '#B0E57C';
 const pastelBlue = '#AEC6CF';

@@ -10,3 +10,8 @@ export const getBreeds = async (): Promise<IBreed[]> => {
         throw error;
     }
 };
+
+export const getBreedById = async (id: number): Promise<IBreed> => {
+    const response = await axiosInstance.get<IBreed>(`/breeds/${id}`);
+    return response.data;
+};

@@ -29,4 +29,5 @@ export interface IPetData {
     description: string;
     gender: string;
     image: File | null;
+    location: string;
 }

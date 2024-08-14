@@ -109,7 +109,6 @@ impl UserApi {
         pool: Data<&PgPool>,
         id: Path<i32>,
     ) -> Result<Json<UserResponse>> {
-        println!("{0}", *id);
         let user = sqlx::query_as!(
             UserResponse,
             r#"

@@ -30,6 +30,7 @@ const AddPetForm: React.FC = () => {
         description: '',
         gender: '',
         image: null,
+        location: '',
     });
     const [breeds, setBreeds] = useState<IBreed[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -83,6 +84,7 @@ const AddPetForm: React.FC = () => {
             formData.append('description', petData.description);
             formData.append('gender', petData.gender);
             formData.append('created_by', user!.id.toString());
+            formData.append('location', petData.location); // Append location
             if (petData.image) {
                 formData.append('image', petData.image);
             }
@@ -196,6 +198,15 @@ const AddPetForm: React.FC = () => {
                                 ))}
                             </Select>
                         </FormControl>
+                        <TextField
+                            label='Location'
+                            variant='outlined'
+                            fullWidth
+                            margin='normal'
+                            name='location'
+                            value={petData.location}
+                            onChange={handleTextFieldChange}
+                        />
                         <TextField
                             label='Description'
                             variant='outlined'
