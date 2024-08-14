@@ -7,6 +7,7 @@ import Login from './components/Login/Login';
 import Profile from './components/Profile/Profile';
 import AddPetForm from './components/AddPet/AddPetForm';
 import PetList from './components/PetList/PetList';
+import PetDetail from './components/PetDetail/PetDetail';
 
 const App: React.FC = () => {
     return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
                 <Route path='/profile' element={<Profile />} />
                 <Route path='/add-pet' element={<AddPetForm />} />
                 <Route path='/pets' element={<PetList />} />
+                <Route path='/pet/:id' element={<PetDetail />} />
             </Routes>
         </Router>
     );

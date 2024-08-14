@@ -12,6 +12,7 @@ pub struct User {
     pub username: String,
     pub email: String,
     pub password_hash: String,
+    pub phone_number: Option<String>,
     pub created_at: Option<DateTime<Utc>>,
     pub last_login: Option<DateTime<Utc>>,
 }
@@ -21,10 +22,21 @@ pub struct RegisterUser {
     pub username: String,
     pub email: String,
     pub password: String,
+    pub phone_number: Option<String>,
 }
 
 #[derive(Debug, Deserialize, Serialize, Object)]
 pub struct LoginUser {
     pub username: String,
     pub password: String,
+}
+
+#[derive(Debug, sqlx::FromRow, Serialize, Deserialize, Object)]
+pub struct UserResponse {
+    pub id: i32,
+    pub username: String,
+    pub email: String,
+    pub phone_number: Option<String>,
+    pub created_at: Option<DateTime<Utc>>,
+    pub last_login: Option<DateTime<Utc>>,
 }

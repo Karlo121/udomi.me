@@ -1,9 +1,11 @@
 import React from 'react';
 import { Container, Typography, Button, Box } from '@mui/material';
-import { Pets, Home as HomeIcon } from '@mui/icons-material'; // Import icons
-import Paper from '@mui/material/Paper';
+import { Pets, Home as HomeIcon } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
 const Home: React.FC = () => {
+    const navigate = useNavigate(); // Initialize the navigate function
+
     return (
         <Box
             sx={{
@@ -48,6 +50,7 @@ const Home: React.FC = () => {
                         },
                     }}
                     startIcon={<Pets />}
+                    onClick={() => navigate('/pets')} // Add navigation on click
                 >
                     Adopt
                 </Button>
@@ -69,6 +72,7 @@ const Home: React.FC = () => {
                         },
                     }}
                     startIcon={<HomeIcon />}
+                    onClick={() => navigate('/add-pet')} // Add navigation on click
                 >
                     Find a home
                 </Button>

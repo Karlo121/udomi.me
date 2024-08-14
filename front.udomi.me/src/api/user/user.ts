@@ -5,6 +5,7 @@ interface RegisterData {
     username: string;
     email: string;
     password: string;
+    phone_number: string;
 }
 
 interface LoginData {
@@ -16,6 +17,7 @@ interface User {
     id: number;
     username: string;
     email: string;
+    phone_number: string | null;
 }
 
 export const registerUser = async (data: RegisterData) => {
@@ -36,4 +38,9 @@ export const loginUser = async (userData: LoginData): Promise<User> => {
         console.error('Login error:', error);
         throw error;
     }
+};
+
+export const getUserById = async (id: number) => {
+    const response = await axiosInstance.get(`/users/${id}`);
+    return response.data;
 };

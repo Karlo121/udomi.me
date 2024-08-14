@@ -13,3 +13,8 @@ export const getPets = async () => {
     const response = await axiosInstance.get('/pets');
     return response.data;
 };
+
+export const getPetById = async (id: number) => {
+    const response = await axiosInstance.get(`/pets/${id}`);
+    return response.data;
+};

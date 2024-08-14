@@ -11,6 +11,7 @@ const Register: React.FC = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState(''); // New phone number state
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
@@ -18,7 +19,12 @@ const Register: React.FC = () => {
         event.preventDefault();
 
         try {
-            const data = { username, email, password };
+            const data = {
+                username,
+                email,
+                password,
+                phone_number: phoneNumber,
+            };
             const result = await registerUser(data);
             setSuccess('Registration successful');
             setError(null);
@@ -129,6 +135,28 @@ const Register: React.FC = () => {
                             fullWidth
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: '50px',
+                                    fontSize: '1.2rem',
+                                    '& fieldset': {
+                                        borderColor: '#AEC6CF',
+                                    },
+                                    '&:hover fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                    '&.Mui-focused fieldset': {
+                                        borderColor: '#FFB347',
+                                    },
+                                },
+                            }}
+                        />
+                        <TextField
+                            label='Phone Number'
+                            variant='outlined'
+                            fullWidth
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     borderRadius: '50px',
