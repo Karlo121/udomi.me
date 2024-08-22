@@ -6,4 +6,5 @@ pub enum ApiTags {
     User,
     Species,
     Breed,
+    Adoption,
 }

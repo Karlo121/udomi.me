@@ -16,5 +16,11 @@ pub mod breed {
     pub use breed_api::BreedApi;
 }
 
+pub mod adoption {
+    pub mod adoption_api;
+
+    pub use adoption_api::AdoptionApi;
+}
+
 pub mod s3;
 pub mod tags;

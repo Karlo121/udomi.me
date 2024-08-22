@@ -26,3 +26,11 @@ pub mod user {
     pub use user::User;
     pub use user::UserResponse;
 }
+
+pub mod adoption {
+    pub mod adoption;
+
+    pub use adoption::AdoptionResponse;
+    pub use adoption::AdoptionStatus;
+    pub use adoption::CreateAdoption;
+}
